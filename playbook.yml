@@ -1,0 +1,57 @@
+---
+- hosts: all
+  become: yes
+
+  vars:
+    node_apps_location: /usr/local/opt/node
+
+  tasks: 
+    - name: Install EPEL repo.
+      dnf: name=epel-release state=present
+
+    - name: Import Remi GPG key.
+      rpm_key:
+        key: "https://rpms.remirepo.net/enterprise/9/RPM-GPG-KEY-remi"
+        state: present
+
+    - name: Install Remi repo.
+      dnf:
+        name: "https://rpms.remirepo.net/enterprise/remi-release-9.rpm"
+        state: present
+    
+    - name: Ensure firewalld is stopped (since this is for testing).
+      service: name=firewalld state=stopped
+      
+    - name: Install nodejs
+      dnf: name=nodejs state=present
+
+    - name: Install Forever (to run node.js app)
+      npm: name=forever global=yes state=present
+
+    - name: Forever latest 
+      npm: name=forever global=yes state=latest
+
+    - name: Ensure Node.js app folder exists.
+      file: "path={{ node_apps_location }} state=directory"
+
+    - name: Copy example node.js app to server.
+      copy: 
+        src: "/Users/skorup/VMs/nodejs_app/app.js" 
+        dest: "{{ node_apps_location }}"
+
+    - name: copy package.json
+      copy:
+        src: "/Users/skorup/VMs/nodejs_app/package.json"
+        dest: "{{ node_apps_location }}/app"
+
+    - name: Install app dependencies defined in package.json
+      npm: path={{ node_apps_location }}/app
+
+    - name: Check list of running Node.js app.
+      command: /usr/local/bin/forever list
+      register: forever_list
+      changed_when: false
+
+    - name: Start example Node.js app.
+      command: "/usr/local/bin/forever start {{ node_apps_location }}/app.js"
+      when: "forever_list.stdout.find(node_apps_location + '/app.js') == -1"
