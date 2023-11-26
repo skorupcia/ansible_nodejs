@@ -1,9 +1,11 @@
-# ansible_nodejs
+# MACOS ansible_nodejs with vagrant and Parallels
 NodeJs Test website with Ansible.
 
 macOS: Sonoma 14.1.1
 
 Vagrant Box: bento-rockylinux-9-aarch64
+
+Parallels: 19.1.1
 
 ATTENTION
 1. If you are using bento-rockylinux-9-aarch64, remember to install firstly nodejs package (dnf) to use npm command in the future.
