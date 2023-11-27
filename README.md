@@ -12,3 +12,5 @@ ATTENTION
 2. remote_src works only on EXTERNAL ENVIRONMENT, if you are using visual machine like me, don’t use it. (remote_scr=false default value)
 3. Use physical path to copy files from your local machine, or u can add variable with your file path and use it this way.
 4. Remember to specify good path to start node.js app
+
+links: 2nd edition of Ansible for DevOps Jeff Geerling
