@@ -4,6 +4,8 @@
 
   vars:
     node_apps_location: /usr/local/opt/node
+    app_location: !!!!YOUR PATH!!!!
+    package_location: !!!!YOUR PATH!!!!
 
   tasks: 
     - name: Install EPEL repo.
@@ -22,7 +24,7 @@
     - name: Ensure firewalld is stopped (since this is for testing).
       service: name=firewalld state=stopped
       
-    - name: Install nodejs
+    - name: Install nodejs (to run npm commands in the future)
       dnf: name=nodejs state=present
 
     - name: Install Forever (to run node.js app)
@@ -34,14 +36,14 @@
     - name: Ensure Node.js app folder exists.
       file: "path={{ node_apps_location }} state=directory"
 
-    - name: Copy example node.js app to server.
+    - name: Copy example node.js app to server. (since its virtual machine we have to specify real path)
       copy: 
-        src: "/Users/skorup/VMs/nodejs_app/app.js" 
+        src: "{{ app_location }}" 
         dest: "{{ node_apps_location }}"
 
     - name: copy package.json
       copy:
-        src: "/Users/skorup/VMs/nodejs_app/package.json"
+        src: "{{ package_location }}"
         dest: "{{ node_apps_location }}/app"
 
     - name: Install app dependencies defined in package.json
