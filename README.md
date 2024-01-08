@@ -13,4 +13,8 @@ ATTENTION
 3. Use physical path to copy files from your local machine, or u can add variable with your file path and use it this way.
 4. Remember to specify good path to start node.js app
 
-links: 2nd edition of Ansible for DevOps Jeff Geerling
+-- Links --
+
+https://github.com/geerlingguy/ansible-for-devops/tree/master
+
+2nd edition of Ansible for DevOps Jeff Geerling
